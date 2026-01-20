@@ -96,7 +96,7 @@ need to put foo's arguments from stack / memory into registers to be able to wor
 - `si` - does step into next function
 - `continue` - continues running until break or end of program
 - `r` - runs the program
-#### Example
+### Example
 ```gdb
 (gdb) x/120bx $sp
 RSP	0x7fffffffe470: 0x40    0x62    0x4c    0x00    0x00    0x00    0x00    0x00
@@ -116,14 +116,14 @@ ret	0x7fffffffe4a8: 0x3c    0x18    0x40    0x00    0x00    0x00    0x00    0x00
 	0x7fffffffe4e0: 0x00    0x00    0x00    0x00    0x00    0x02    0x00    0x00
 ```
 
-###### How to read this
+#### How to read this
 - GDB displays 8 addresses per row, hence why on the left the addresses skip by 8, meaning...
 	- `*0x7fffffffe470 = 0x40`
 	- `*0x7fffffffe471 = 0x62`
 	- `*0x7fffffffe472 = 0x4c`
 	- and so on
 - `x/120bx` - displays 120 bytes (8 columns x 15 rows) in hexadecimal, starting from the address where the previous instance of this command has finished.
-###### Key locations noted in the slide:
+#### Key locations noted in the slide:
 - **Stack pointer (RSP):** points to `0x7fffffffe470`
 - **Base pointer minus 0x20:** at `0x7fffffffe480` (buffer starts here, where all the 0x41s are)
 - **Base pointer (RBP):** points to `0x00007fffffffe400` (saved RBP location)
@@ -132,15 +132,25 @@ ret	0x7fffffffe4a8: 0x3c    0x18    0x40    0x00    0x00    0x00    0x00    0x00
 	- value 0x40183c in little-endian
 	- value is caller's return address
 ## Assembly Syntax
-#### Intel
+### Intel
 `add rsp, 0x10`
 `lea rax, [rbp-0x1c]`
-• Operands ordered as `dest`, `src`
-• Commonly used for Windows
-• `objdump` -d -M intel `a.out`
-#### AT&T
+- Operands ordered as `dest`, `src`
+- Commonly used for Windows
+- `objdump` -d -M intel `a.out`
+### AT&T
 `add $0x10, %rsp`
 `lea -0x1c(%rbp),%rax`
-• Operands ordered as `src`, `dest`
-• Commonly used for Linux
-• `objdump` -d -M AT&T `ua.ot`
+- Operands ordered as `src`, `dest`
+- Commonly used for Linux
+- `objdump` -d -M AT&T `ua.ot`
+
+## Note
+### GDB Run Error
+```gdb
+/bin/bash: line 1: /home/cs3235/lab1/appsec_lab: Permission denied
+/bin/bash: line 1: exec: /home/cs3235/lab1/appsec_lab: cannot execute: Permission denied
+```
+1. Quit gbd by typing `q`
+2. Use `chmod +x appsec_lab` to give it full execute permissions
+3. Enter back into gdb with `gdb appsec_lab`
