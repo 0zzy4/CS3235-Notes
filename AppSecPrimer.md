@@ -145,8 +145,8 @@ ret	0x7fffffffe4a8: 0x3c    0x18    0x40    0x00    0x00    0x00    0x00    0x00
 - Commonly used for Linux
 - `objdump` -d -M AT&T `ua.ot`
 
-## Note
-### GDB Run Error
+# Personal Notes
+## GDB Run Error
 ```gdb
 /bin/bash: line 1: /home/cs3235/lab1/appsec_lab: Permission denied
 /bin/bash: line 1: exec: /home/cs3235/lab1/appsec_lab: cannot execute: Permission denied
@@ -155,8 +155,8 @@ ret	0x7fffffffe4a8: 0x3c    0x18    0x40    0x00    0x00    0x00    0x00    0x00
 2. Use `chmod +x appsec_lab` to give it full execute permissions
 3. Enter back into gdb with `gdb appsec_lab`
 
-### How to Use x/
-#### Single value at single register:
+## How to Use x/
+### Single value at single register:
 ```gdb
 (gdb) x/1bx $rbp+4
 
@@ -166,7 +166,7 @@ ret	0x7fffffffe4a8: 0x3c    0x18    0x40    0x00    0x00    0x00    0x00    0x00
 - `$rbp+4` = start at 4 bytes after the address held in RBP
 
 
-#### Values for addresses at & after register
+### Values for addresses at & after register
 ```gdb
 (gdb) x/24bx $rbp
 
@@ -178,7 +178,7 @@ ret	0x7fffffffe4a8: 0x3c    0x18    0x40    0x00    0x00    0x00    0x00    0x00
   - displayed by 3 rows of 8 columns, each cell representing the value at each of the 24 addresses
 - `$rbp` = start displaying at the addresses held in RBP
 
-#### Endianness
+### Endianness
 ```gdb
 (gdb) x/1gx $rsp
 (gdb) x/8bx $rsp
@@ -188,7 +188,7 @@ ret	0x7fffffffe4a8: 0x3c    0x18    0x40    0x00    0x00    0x00    0x00    0x00
 - `b` = individual bytes (1 byte each)
   - displays the raw bytes in little-endian order (how they're actually stored in memory)
 
-### Accessing Inner Function's RBP Value
+## Accessing Inner Function's RBP Value
 At the beginning of the function, you will see:
 ```gdb
    0x0000000000401c96:  push    rbp
