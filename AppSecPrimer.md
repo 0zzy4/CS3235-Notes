@@ -177,3 +177,29 @@ ret	0x7fffffffe4a8: 0x3c    0x18    0x40    0x00    0x00    0x00    0x00    0x00
 - `24bx` = 24 bytes in hexadecimal
   - displayed by 3 rows of 8 columns, each cell representing the value at each of the 24 addresses
 - `$rbp` = start displaying at the addresses held in RBP
+
+#### Endianness
+```gdb
+(gdb) x/1gx $rsp
+(gdb) x/8bx $rsp
+```
+- `g` = giant word (8 bytes)
+  - reads 8 bytes and displays them as a single 64-bit value in big-endian (human-readable format)
+- `b` = individual bytes (1 byte each)
+  - displays the raw bytes in little-endian order (how they're actually stored in memory)
+
+### Accessing Inner Function's RBP Value
+At the beginning of the function, you will see:
+```gdb
+   0x0000000000401c96:  push    rbp
+   0x0000000000401c97:  mov     rbp, rsp
+```
+- `push rbp` = saves caller's rbp (frame pointer) onto the stack
+- `mov rbp, rsp` = sets RBP to the current stack pointer value
+  - After `push rbp`, RSP points to where we just saved the old RBP
+  - By setting RBP = RSP, now RBP points to the location of the saved RBP
+  - This establishes the base of the new stack frame for the callee
+
+**Important:** You must step past the `mov rbp, rsp` instruction before examining the callee's RBP or any values relative to it (like `$rbp+8`).
+
+Before this instruction completes, RBP still points to the caller's frame.
