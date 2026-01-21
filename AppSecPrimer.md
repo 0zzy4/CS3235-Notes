@@ -154,3 +154,26 @@ ret	0x7fffffffe4a8: 0x3c    0x18    0x40    0x00    0x00    0x00    0x00    0x00
 1. Quit gbd by typing `q`
 2. Use `chmod +x appsec_lab` to give it full execute permissions
 3. Enter back into gdb with `gdb appsec_lab`
+
+### How to Use x/
+#### Single value at single register:
+```gdb
+(gdb) x/1bx $rbp+4
+
+0x7fffffffe4a8: 0x5d
+```
+- `1bx` = 1 byte in hexadecimal
+- `$rbp+4` = start at 4 bytes after the address held in RBP
+
+
+#### Values for addresses at & after register
+```gdb
+(gdb) x/24bx $rbp
+
+0x7ffffff6ffc8: 0x00    0x00    0x00    0x00    0x00    0x00    0x00    0x00
+0x7ffffff6ffd0: 0xe0    0xff    0xf6    0xff    0xff    0x7f    0x00    0x00
+0x7ffffff6ffd8: 0x72    0x1d    0x40    0x00    0x00    0x00    0x00    0x00
+```
+- `24bx` = 24 bytes in hexadecimal
+  - displayed by 3 rows of 8 columns, each cell representing the value at each of the 24 addresses
+- `$rbp` = start displaying at the addresses held in RBP
